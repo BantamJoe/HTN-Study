@@ -9,15 +9,20 @@ public class ThirdPersonCameraController : MonoBehaviour {
     public Quaternion rotation;
 
     private GameObject focus;
+    private float angle;
+
+    void Awake()
+    {
+        InternalEventManager.Instance.AddListener<InputEvent>(changeFocus);
+    }
 
     void Start()
     {
         focus = (GameObject)GameObject.FindGameObjectWithTag("PlayerHead");
-        float angle = focus.transform.eulerAngles.y;
-        rotation = Quaternion.Euler(0f, angle, 0f);
-        rotation.y += 2.3f;
+        angle = focus.transform.eulerAngles.y;
+        rotation = Quaternion.Euler(focus.transform.eulerAngles);
+        //rotation.y += 2.3f;
         followOffset = new Vector3(0.0f, 0.0f, -1.5f);
-
     }
 
     void FixedUpdate()
@@ -26,10 +31,17 @@ public class ThirdPersonCameraController : MonoBehaviour {
         this.transform.rotation = Quaternion.Lerp(this.transform.rotation, rotation, Time.deltaTime * speed);
     }
 
-    public void ChangeFocus(string focusTag)
+    void OnDestroy()
     {
-        focus = (GameObject)GameObject.FindGameObjectWithTag(focusTag);
-        LogManager.Instance.Log("Camera Focus Changed to: " + focusTag);
+    }
+
+    private void changeFocus(InputEvent e)
+    {
+        focus = (GameObject)GameObject.FindGameObjectWithTag(e.Tag);
+        angle = focus.transform.eulerAngles.y;
+        rotation = Quaternion.Euler(0f, angle, 0f);
+        rotation.y += 2.3f;
+        LogManager.Instance.Log("Camera Focus Changed to: " + e.Tag);
     }
 
 }

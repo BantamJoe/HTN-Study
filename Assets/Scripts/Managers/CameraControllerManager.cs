@@ -3,15 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-
 namespace Managers
 {
     [DebuggerDisplay("Camerca Focus Map ={CameraFocusMap}")]
-    public class CameraFocusManager : MonoBehaviour
+    public class CameraControllerManager : MonoBehaviour
     {
         private Dictionary<KeyCode, string> cameraFocusControlMap = new Dictionary<KeyCode, string>();
 
-        public static CameraFocusManager Instance { get; private set; }
+        public static CameraControllerManager Instance { get; private set; }
         public Dictionary<KeyCode, string> CameraFocusMap { get { return cameraFocusControlMap; } }
 
         void Awake()
@@ -38,8 +37,7 @@ namespace Managers
                     {
                         string focusTag;
                         cameraFocusControlMap.TryGetValue(key, out focusTag);
-                        //INVOKE CHANGE FOCUS METHOD HERE
-                        //ThirdPersonCameraController.ChangeFocus(focusTag);
+                        InternalEventManager.Instance.Raise(new InputEvent(key, focusTag));
                     }
                 }
             }
