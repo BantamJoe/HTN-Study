@@ -1,0 +1,13 @@
+C:\Users\Reesas\Documents\HTNTest\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\Users\Reesas\Documents\HTNTest\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\Users\Reesas\Documents\HTNTest\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\Reesas\Documents\HTNTest\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\Reesas\Documents\HTNTest\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+C:\Users\Reesas\Documents\HTNTest\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\Reesas\Documents\HTNTest\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\Reesas\Documents\HTNTest\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+C:\Users\Reesas\Documents\HTNTest\obj\Debug\UnityVS.HTNTest.CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Reesas\Documents\HTNTest\obj\Debug\Assembly-CSharp.dll
+C:\Users\Reesas\Documents\HTNTest\obj\Debug\Assembly-CSharp.pdb
+C:\Users\Reesas\Documents\HTNTest\Temp\UnityVS_bin\Debug\RAIN.dll
+C:\Users\Reesas\Documents\HTNTest\Temp\UnityVS_bin\Debug\RAINMetaform.dll
