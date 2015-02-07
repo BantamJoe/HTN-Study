@@ -45,12 +45,12 @@ namespace Managers
 
         private void loadCameraControlMap()
         {
-            cameraFocusControlMap.Add(KeyCode.Escape, "PlayerHead");
-            cameraFocusControlMap.Add(KeyCode.F1, "AIHead1");
-            cameraFocusControlMap.Add(KeyCode.F2, "AIHead2");
-            cameraFocusControlMap.Add(KeyCode.F3, "AIHead3");
-            cameraFocusControlMap.Add(KeyCode.F4, "AIHead4");
-            cameraFocusControlMap.Add(KeyCode.F5, "AIHead5");
+            cameraFocusControlMap.Add(KeyCode.Escape, "PlayerFocus");
+            cameraFocusControlMap.Add(KeyCode.F1, "AIFocus_1");
+            cameraFocusControlMap.Add(KeyCode.F2, "AIFocus_2");
+            cameraFocusControlMap.Add(KeyCode.F3, "AIFocus_3");
+            cameraFocusControlMap.Add(KeyCode.F4, "AIFocus_4");
+            cameraFocusControlMap.Add(KeyCode.F5, "AIFocus_5");
             cameraFocusControlMap.Add(KeyCode.Tab, "WorldPerspective");
         }
     }
