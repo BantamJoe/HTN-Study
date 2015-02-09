@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Managers
-{
     public class InternalEventManager
     {
         private static InternalEventManager _instance = null;
@@ -86,4 +84,3 @@ namespace Managers
             }
         }
     }
-}

@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Managers
-{
+
     [DebuggerDisplay("Camerca Focus Map ={CameraFocusMap}")]
     public class CameraControllerManager : MonoBehaviour
     {
@@ -37,7 +36,7 @@ namespace Managers
                     {
                         string focusTag;
                         cameraFocusControlMap.TryGetValue(key, out focusTag);
-                        InternalEventManager.Instance.Raise(new InputEvent(key, focusTag));
+                        InternalEventManager.Instance.Raise(new CharacterFocusChangeEvent(key, focusTag));
                     }
                 }
             }
@@ -54,4 +53,3 @@ namespace Managers
             cameraFocusControlMap.Add(KeyCode.Tab, "WorldPerspective");
         }
     }
-}

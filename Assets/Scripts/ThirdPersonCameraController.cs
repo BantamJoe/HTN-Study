@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Managers;
+
 
 public class ThirdPersonCameraController : MonoBehaviour {
 
-    public float speed = 1.5f;
-    //public Vector3 followOffset;
+    public float speed = 2.3f;
     public Quaternion rotation;
     public string defaultFocus = "PlayerFocus";
 
@@ -14,20 +13,23 @@ public class ThirdPersonCameraController : MonoBehaviour {
 
     void Awake()
     {
-        InternalEventManager.Instance.AddListener<InputEvent>(changeFocus);
+        InternalEventManager.Instance.AddListener<CharacterFocusChangeEvent>(changeFocus);
     }
 
     void Start()
     {
         focus = (GameObject)GameObject.FindGameObjectWithTag(defaultFocus);
-        angle = focus.transform.eulerAngles.y;
-        rotation = Quaternion.Euler(0f, angle, 0f);
+        //angle = focus.transform.eulerAngles.y;
+        rotation = Quaternion.Euler(focus.transform.eulerAngles);
     }
 
-    void FixedUpdate()
+    void Update()
     {
         this.transform.position = Vector3.Lerp(this.transform.position, focus.transform.position, Time.deltaTime * speed);
-        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, rotation, Time.deltaTime * speed);
+
+        var wantedRotation = Quaternion.LookRotation(focus.transform.position - focus.transform.position, focus.transform.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, wantedRotation, Time.deltaTime * 10);
+
         Debug.DrawRay(this.transform.position, transform.TransformDirection(Vector3.forward) * 10, Color.red);
     }
 
@@ -35,7 +37,7 @@ public class ThirdPersonCameraController : MonoBehaviour {
     {
     }
 
-    private void changeFocus(InputEvent e)
+    private void changeFocus(CharacterFocusChangeEvent e)
     {
         focus = (GameObject)GameObject.FindGameObjectWithTag(e.Tag);
         angle = focus.transform.eulerAngles.y;

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HTNPlanner
-{
+
     public class HTNPlanner
     {
         private IHTNDomain _domain;
@@ -45,4 +44,3 @@ namespace HTNPlanner
 
     }
 
-}

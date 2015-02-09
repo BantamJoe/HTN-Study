@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using HTNPlanner;
 
-namespace SimpleWorldHTN
-{
+
     public class SimpleWorldDomain : IHTNDomain
     {
         public SimpleWorldDomain()
@@ -38,4 +36,4 @@ namespace SimpleWorldHTN
 
 
     }
-}
+
