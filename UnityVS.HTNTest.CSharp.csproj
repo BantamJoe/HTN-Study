@@ -69,13 +69,18 @@
     <Compile Include="Assets\Scripts\HTNPlanner\State.cs" />
     <Compile Include="Assets\Scripts\HTNPlanner\Tasks.cs" />
     <Compile Include="Assets\Scripts\IEvent.cs" />
-    <Compile Include="Assets\Scripts\LogTest.cs" />
+    <Compile Include="Assets\Scripts\Managers\Manager.cs" />
+    <Compile Include="Assets\Scripts\Tests\LogTest.cs" />
     <Compile Include="Assets\Scripts\Managers\CameraControllerManager.cs" />
     <Compile Include="Assets\Scripts\Managers\InternalEventManager.cs" />
     <Compile Include="Assets\Scripts\Managers\LogManager.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Managers\BehaviourUIManager.cs" />
     <Compile Include="Assets\Scripts\ThirdPersonCameraController.cs" />
     <Compile Include="Assets\Scripts\UI\AutoScroll.cs" />
+    <Compile Include="Assets\Scripts\UI\BehaviourUILib.cs" />
+    <Compile Include="Assets\Scripts\Utility\Enumerations.cs" />
+    <Compile Include="Assets\Scripts\Utility\ThoughtSpriteLib.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\External Tools\RAIN\Editor\ScriptTemplates\BehaviorTreeTemplate.xml" />
@@ -90,5 +95,6 @@
     <None Include="Assets\External Tools\SFLCK_2\Readme.txt" />
     <None Include="Assets\RAIN\ReleaseNotes.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>
