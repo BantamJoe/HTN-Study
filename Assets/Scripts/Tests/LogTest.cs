@@ -1,0 +1,22 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class LogTest : MonoBehaviour
+{
+
+    public int x = 25;
+    bool f = true;
+    void Update()
+    {
+        if (x != 0)
+        {
+            LogManager.Instance.Log("Hello there my name is Lisa!fffffffffffffff");
+            x--;
+        }
+        else if ((x == 0) && f)
+        {
+            LogManager.Instance.Log("weeee");
+            f = false;
+        }
+    }
+}
