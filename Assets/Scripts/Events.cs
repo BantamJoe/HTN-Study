@@ -1,6 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+public class GoalChangeTriggerEvent : IEvent
+{
+    private Goal _newGoal;
+    private ID _npc;
+
+    public Goal NewGoal { get { return _newGoal; } }
+    public ID CallerID { get { return _npc; } }
+
+    public GoalChangeTriggerEvent(Goal goal, ID npc)
+    {
+        _npc = npc;
+        _newGoal = goal;
+    }
+
+    public void LogEvent() { Debug.Log("GoalChangeTriggerEvent"); }
+}
 
 public class CharacterFocusChangeEvent : IEvent
 {
@@ -16,56 +32,56 @@ public class CharacterFocusChangeEvent : IEvent
         _tag = tag;
     }
 
-    public void LogEvent() { LogManager.Instance.Log("Input Event"); }
+    public void LogEvent() { Debug.Log("Input Event"); }
 }
 
 public class ThoughtChangeEvent  : IEvent
 {
-    private Actor _actorTarget;
+    private ID _actorTarget;
     private Thought _thought;
 
     public Thought Thought { get { return _thought; } }
-    public Actor ActorTarget { get { return _actorTarget; } }
+    public ID ActorTarget { get { return _actorTarget; } }
 
-    public ThoughtChangeEvent(Thought thought, Actor target)
+    public ThoughtChangeEvent(Thought thought, ID target)
     {
         _actorTarget = target;
         _thought = thought;
     }
-    
-    public void LogEvent() { LogManager.Instance.Log("Thought Change Event"); }
+
+    public void LogEvent() { Debug.Log("Thought Change Event"); }
 }
 
 public class HealthChangeEvent : IEvent
 {
-    private Actor _actorTarget;
+    private ID _actorTarget;
     private int _amount;
 
     public int Amount { get { return _amount; } }
-    public Actor ActorTarget { get { return _actorTarget; } }
+    public ID ActorTarget { get { return _actorTarget; } }
 
-    public HealthChangeEvent(int amount, Actor target)
+    public HealthChangeEvent(int amount, ID target)
     {
         _actorTarget = target;
         _amount = amount;
     }
 
-    public void LogEvent() { LogManager.Instance.Log("Health Change Event"); }
+    public void LogEvent() { Debug.Log("Health Change Event"); }
 }
 
 public class StatusChangeEvent : IEvent
 {
-    private Actor _actorTarget;
+    private ID _actorTarget;
     private string _status;
 
     public string Status{ get { return _status; } }
-    public Actor ActorTarget { get { return _actorTarget; } }
+    public ID ActorTarget { get { return _actorTarget; } }
 
-    public StatusChangeEvent(string status, Actor target)
+    public StatusChangeEvent(string status, ID target)
     {
         _actorTarget = target;
         _status = status;
     }
 
-    public void LogEvent() { LogManager.Instance.Log("Status Change Event"); }
+    public void LogEvent() { Debug.Log("Status Change Event"); }
 }

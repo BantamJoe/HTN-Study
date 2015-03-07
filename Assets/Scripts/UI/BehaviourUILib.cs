@@ -9,18 +9,18 @@ using UnityEngine;
 /* this is super hacky **/
 public class BehaviourUILib
 {
-    private Dictionary<Actor, string> _actorUILib;
+    private Dictionary<ID, string> _actorUILib;
     private ThoughtSpriteLib _thoughtLib;
 
     public BehaviourUILib()
     {
-        _actorUILib = new Dictionary<Actor, string>();
+        _actorUILib = new Dictionary<ID, string>();
         _thoughtLib = new ThoughtSpriteLib();
 
         generateActorUILib();
     }
 
-    private GameObject shiftUIElementFocus(Actor actor, ActorUIElement element)
+    private GameObject shiftUIElementFocus(ID actor, ActorUIElement element)
     {
         string focusTag;
         _actorUILib.TryGetValue(actor, out focusTag);
@@ -34,7 +34,7 @@ public class BehaviourUILib
         return null;
     }
 
-    public void SetActorThoughtSprite(Actor actor, Thought thought)
+    public void SetActorThoughtSprite(ID actor, Thought thought)
     { 
         GameObject thoughtUI = shiftUIElementFocus(actor, ActorUIElement.Thought);
         Image thoughtImg = thoughtUI.GetComponent<Image>();
@@ -42,7 +42,7 @@ public class BehaviourUILib
         thoughtImg.sprite = _thoughtLib.GetThoughtSprite(thought);
     }
 
-    public void SetActorHealth(Actor actor, int amount)
+    public void SetActorHealth(ID actor, int amount)
     {
          GameObject healthUI = shiftUIElementFocus(actor, ActorUIElement.Health);
          Slider healthSlider = healthUI.GetComponent<Slider>();
@@ -52,7 +52,7 @@ public class BehaviourUILib
 
     }
 
-    public void SetActorStatus(Actor actor, string status)
+    public void SetActorStatus(ID actor, string status)
     {
          GameObject statusUI = shiftUIElementFocus(actor, ActorUIElement.Status);
          Text statusText = statusUI.GetComponent<Text>();
@@ -63,10 +63,10 @@ public class BehaviourUILib
 
     private void generateActorUILib()
     {
-        _actorUILib.Add(Actor.AI1, "AI1_");
-        _actorUILib.Add(Actor.AI2, "AI2_");
-        _actorUILib.Add(Actor.AI3, "AI3_");
-        _actorUILib.Add(Actor.Player, "Player_");
+        _actorUILib.Add(ID.AI1, "AI1_");
+        _actorUILib.Add(ID.AI2, "AI2_");
+        _actorUILib.Add(ID.AI3, "AI3_");
+        _actorUILib.Add(ID.Player, "Player_");
     }
 
 }

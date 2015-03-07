@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-
 public class ThoughtSpriteLib
 {
     private Dictionary<Thought, Sprite> spriteMap;
