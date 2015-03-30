@@ -42,7 +42,7 @@ public class ThirdPersonCameraController : MonoBehaviour {
         focus = (GameObject)GameObject.FindGameObjectWithTag(e.Tag);
         angle = focus.transform.eulerAngles.y;
         rotation = Quaternion.Euler(0f, angle, 0f);
-        LogManager.Instance.Log("Camera Focus Changed to: " + e.Tag);
+        Debug.Log("Camera Focus Changed to: " + e.Tag);
     }
 
 }

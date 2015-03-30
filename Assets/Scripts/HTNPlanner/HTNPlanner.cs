@@ -37,7 +37,6 @@ public class HTNPlanner
         }
     }
 
-
     // CONSTRUCTORS
 
     /// <summary>
@@ -117,46 +116,37 @@ public class HTNPlanner
         return methods[taskName];
     }
 
-    public List<string> SolvePlanningProblem(State state, List<List<string>> tasks, int verbose = 0)
+    public List<string> SolvePlanningProblem(State state, List<List<string>> tasks)
     {
-        if (verbose > 0)
-        {
-            //Debug.Log("State = " + state.Name);
-            //Debug.Log("Tasks = " + tasks.ToString());
-        }
-        List<string> result = SeekPlan(state, tasks, new List<string>(), verbose);
-
-        if (cancelSearch)
-        {
-            if (verbose > 0)
-                Debug.Log("No result, search was cancelled");
-            cancelSearch = false;
-        }
-        //else if (verbose > 0)
-        //    Debug.Log("Result = " + result.ToString());
+       
+        List<string> result = SeekPlan(state, tasks, new List<string>());
         return result;
     }
 
-    public List<string> SeekPlan(State state, List<List<string>> tasks, List<string> plan, int depth = 0, int verbose = 0)
+    public List<string> SeekPlan(State state, List<List<string>> tasks, List<string> plan, int depth = 0)
     {
+        List<string> task;
         if (cancelSearch)
             return null;
 
         if (searchDepth > 0)
         {
             if (depth >= searchDepth)
-                return null;
+                return plan;
         }
-      
-        List<string> task = tasks[0];
+
+        if (tasks.Count != 0)
+            task = tasks[0];
+        else
+            return plan;
+
         if (operators.Contains(task[0]))
         {
-            if (verbose > 2)
-                Debug.Log("Depth: " + depth + ", action: " + task.ToString());
 
             MethodInfo info = operatorsType.GetMethod(task[0]);
             object[] parameters = new object[task.Count];
             parameters[0] = new State(state);
+
             if (task.Count > 1)
             {
                 int x = 1;
@@ -167,10 +157,8 @@ public class HTNPlanner
                     x++;
                 }
             }
-            State newState = (State)info.Invoke(null, parameters);
 
-            if (verbose > 2)
-                Debug.Log("Depth: " + depth + ", new state: " + newState.ToString());
+            State newState = (State)info.Invoke(null, parameters);
 
             if (newState != null)
             {
@@ -183,17 +171,16 @@ public class HTNPlanner
                         toAddToPlan += (", " + param);
                     }
                 }
+
                 toAddToPlan += ")";
                 plan.Add(toAddToPlan);
-                List<string> solution = SeekPlan(newState, tasks.GetRange(1, (tasks.Count - 1)), plan, (depth + 1), verbose);
+                List<string> solution = SeekPlan(newState, tasks.GetRange(1, (tasks.Count - 1)), plan, (depth + 1));
                 if (solution != null)
                     return solution;
             }
         }
         if (methods.ContainsKey(task[0]))
         {
-            if (verbose > 2)
-                Debug.Log("Depth: " + depth + ", method instance: " + task.ToString());
 
             List<string> relevant = methods[task[0]];
             foreach (string method in relevant)
@@ -212,39 +199,38 @@ public class HTNPlanner
                         x++;
                     }
                 }
+                
                 List<List<string>> subtasks = null;
+                
                 try
                 {
                     subtasks = (List<List<string>>)info.Invoke(null, parameters);
                 }
                 catch (Exception e)
                 {
-                    if (verbose > 2)
                         Debug.LogException(e);
                 }
 
-                if (verbose > 2)
-                    Debug.Log("Depth: " + depth + ", new tasks: " + subtasks.ToString());
                 if (subtasks != null)
                 {
                     List<List<string>> newTasks = new List<List<string>>(subtasks);
                     newTasks.AddRange(tasks.GetRange(1, (tasks.Count - 1)));
+                    
                     try
                     {
-                        List<string> solution = SeekPlan(state, newTasks, plan, (depth + 1), verbose);
+                        List<string> solution = SeekPlan(state, newTasks, plan, (depth + 1));
                         if (solution != null)
                             return solution;
                     }
                     catch (StackOverflowException e)
                     {
-                        if (verbose > 2)
                             Debug.LogException(e);
                     }
                 }
             }
         }
-        if (verbose > 2)
-            Debug.Log("Depth " + depth + " returns failure!");
+
+        //somehting bad happenened...
         return null;
     }
 }

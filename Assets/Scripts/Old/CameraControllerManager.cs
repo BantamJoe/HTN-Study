@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 
-    [DebuggerDisplay("Camerca Focus Map ={CameraFocusMap}")]
     public class CameraControllerManager : MonoBehaviour
     {
         private Dictionary<KeyCode, string> cameraFocusControlMap = new Dictionary<KeyCode, string>();
@@ -21,7 +19,7 @@ using System.Diagnostics;
 
             Instance = this;
             loadCameraControlMap();
-            LogManager.Instance.Log("Camera Focus Manager initalized");
+            Debug.Log("Camera Focus Manager initalized");
             DontDestroyOnLoad(gameObject);
         }
 

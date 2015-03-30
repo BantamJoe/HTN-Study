@@ -26,7 +26,7 @@ public class Domain_Swap
     public static List<List<string>> Swap_m(State state, string x, string y)
     {
         List<List<string>> returnVal = new List<List<string>>();
-        if (state.CheckVar("have", x) && !state.CheckVar("holding", y))
+        if (state.CheckVariable("have", x) && !state.CheckVariable("holding", y))
         {
             // An alternative way of adding subtasks:
             // returnVal.Add(new List<string>(new string[] { "Drop", x }));
@@ -35,7 +35,7 @@ public class Domain_Swap
             AddTask(returnVal, "Drop", x);
             AddTask(returnVal, "Pickup", y);
         }
-        else if (state.CheckVar("have", y) && !state.CheckVar("holding", x))
+        else if (state.CheckVariable("have", y) && !state.CheckVariable("holding", x))
         {
             AddTask(returnVal, "Drop", y);
             AddTask(returnVal, "Pickup", x);
@@ -73,7 +73,7 @@ public class Domain_Swap
     {
         State newState = state;
         // can only drop if agent actually has item
-        if (state.CheckVar("have", item))
+        if (state.CheckVariable("have", item))
         {
             newState.Remove("have", item);
         }
@@ -90,7 +90,7 @@ public class Domain_Swap
     {
         State newState = state;
         // can only pickup if agent does not already have item
-        if (!state.CheckVar("have", item))
+        if (!state.CheckVariable("have", item))
         {
             newState.Add("have", item);
         }

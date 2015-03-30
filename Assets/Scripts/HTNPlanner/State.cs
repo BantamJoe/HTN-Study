@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class State
 {
-    // FIELDS
 
     /// <summary>
     /// Dictionary containing variables. A variable can be represented as: "have(money)", "name(John)", or "likes(Mary)".
@@ -17,49 +16,17 @@ public class State
     /// </summary>
     private Dictionary<string, Dictionary<string, List<string>>> stateRelations = new Dictionary<string, Dictionary<string, List<string>>>();
 
+    public string StateName { get; set; }
 
-    // PROPERTIES
-
-    /// <summary>
-    /// The name of the state.
-    /// </summary>
-    public string Name
-    {
-        get;
-        set;
-    }
-
-
-    // CONSTRUCTORS
-
-    /// <summary>
-    /// Constructor for a new empty state.
-    /// </summary>
-    /// <param name="name">The name of the state</param>
-    public State(string name)
-    {
-        this.Name = name;
-    }
-
-    /// <summary>
-    /// Constructor for a copy of another state. (Deep copy)
-    /// </summary>
-    /// <param name="state">The state which needs to be copied</param>
+    public State(string name) { this.StateName = name; }
+    
     public State(State state)
     {
-        this.Name = state.Name;
+        this.StateName = state.StateName;
         this.stateVariables = state.GetVariablesCopy();
         this.stateRelations = state.GetRelationsCopy();
     }
 
-
-    // METHODS
-
-    /// <summary>
-    /// Adds a variable to the internal state of the planner.
-    /// </summary>
-    /// <param name="variable">The variable name</param>
-    /// <param name="innerState">The variable value</param>
     public void Add(string variable, string innerState)
     {
         if (stateVariables.ContainsKey(variable))
@@ -72,11 +39,6 @@ public class State
         }
     }
 
-    /// <summary>
-    /// Removes a variable from the internal state of the planner.
-    /// </summary>
-    /// <param name="variable">The variable name</param>
-    /// <param name="innerState">The variable value</param>
     public void Remove(string variable, string innerState)
     {
         if (stateVariables.ContainsKey(variable))
@@ -89,65 +51,27 @@ public class State
         }
     }
 
-    /// <summary>
-    /// Gets all the values of a variable.
-    /// </summary>
-    /// <param name="variable">The variable name</param>
-    /// <returns>A list containing all values of the given variable</returns>
-    public List<string> GetStateOfVar(string variable)
-    {
-        if (ContainsVar(variable))
-            return stateVariables[variable];
-        return null;
-    }
 
-    /// <summary>
-    /// Checks if variable is true for any value
-    /// </summary>
-    /// <param name="variable">The variable name</param>
-    /// <returns>True if variable is true for any value, false if variable is true for no value</returns>
-    public bool ContainsVar(string variable)
-    {
-        return stateVariables.ContainsKey(variable);
-    }
+    //public List<string> GetStateOfVar(string variable)
+    //{
+    //    if (ContainsVariable(variable))
+    //        return stateVariables[variable];
+    //    return null;
+    //}
 
-    /// <summary>
-    /// Checks if variable is true for given value, return true if a match is found.
-    /// </summary>
-    /// <param name="variable">The variable name</param>
-    /// <param name="innerState">The value to check</param>
-    /// <returns>True if a match between the variable and value is found, else false</returns>
-    public bool CheckVar(string variable, string innerState)
+
+    public bool ContainsVariable(string variable) { return stateVariables.ContainsKey(variable); }
+
+    public bool CheckVariable(string variable, string innerState)
     {
         if (stateVariables.ContainsKey(variable) && stateVariables[variable].Contains(innerState))
             return true;
         return false;
     }
 
-    /// <summary>
-    /// Checks if variable is true for given value, return true if a match is found.
-    /// </summary>
-    /// <param name="variable">The variable name</param>
-    /// <param name="innerState">The value to check</param>
-    /// <returns>True if a match between the variable and value is found, else false</returns>
-    public bool Holds(string variable, string innerState)
-    {
-        return CheckVar(variable, innerState);
-    }
 
-    /// <summary>
-    /// Gets a copy of the variables.
-    /// </summary>
-    /// <returns>Dictionary containing variables</returns>
-    public Dictionary<string, List<string>> GetVariablesCopy()
-    {
-        Dictionary<string, List<string>> copy = new Dictionary<string, List<string>>();
-        foreach (KeyValuePair<string, List<string>> pair in stateVariables)
-        {
-            copy.Add(pair.Key, new List<string>(pair.Value));
-        }
-        return copy;
-    }
+    public bool Holds(string variable, string innerState) { return CheckVariable(variable, innerState); }
+
 
     /// <summary>
     /// Adds a relation to the internal state of the planner.
@@ -197,54 +121,27 @@ public class State
         }
     }
 
-    /// <summary>
-    /// Gets all the values of a relation.
-    /// </summary>
-    /// <param name="variable">The relation name</param>
-    /// <returns>A dictionary containing all values of a relation</returns>
-    public Dictionary<string, List<string>> GetStateOfRelation(string variable)
-    {
-        return stateRelations[variable];
-    }
+    //public Dictionary<string, List<string>> GetStateOfRelation(string variable)
+    //{
+    //    return stateRelations[variable];
+    //}
 
-    /// <summary>
-    /// Gets all matches of a relation with the first element filled in.
-    /// </summary>
-    /// <param name="variable">The relation name</param>
-    /// <param name="elementOne">The first element of the relation</param>
-    /// <returns>A list containing all "second elements" that match with the first element for the given relation name</returns>
-    public List<string> GetStateOfRelation(string variable, string elementOne)
-    {
-        return stateRelations[variable][elementOne];
-    }
+    //public List<string> GetStateOfRelation(string variable, string elementOne)
+    //{
+    //    return stateRelations[variable][elementOne];
+    //}
 
-    /// <summary>
-    /// Checks if relation is true for any value.
-    /// </summary>
-    /// <param name="variable">The relation name</param>
-    /// <returns>True if relation is true for any value, false if relation is true for no value</returns>
     public bool ContainsRelation(string variable)
     {
         return stateRelations.ContainsKey(variable);
     }
 
-    /// <summary>
-    /// Checks if there is a relation between one given element and any other.
-    /// </summary>
-    /// <param name="variable">The relation name</param>
-    /// <param name="elementOne">The first element of the relation</param>
-    /// <returns>True if any second element can be found for this relation, false if no second element can be found</returns>
+
     public bool ContainsRelation(string variable, string elementOne)
     {
         return (stateRelations.ContainsKey(variable) && stateRelations[variable].ContainsKey(elementOne));
     }
 
-    /// <summary>
-    /// Checks if there is a relation between any element and a given "second element".
-    /// </summary>
-    /// <param name="variable">The relation name</param>
-    /// <param name="elementTwo">The second element of the relation</param>
-    /// <returns>True if any match is found, else false</returns>
     public bool ContainsRelationMatch(string variable, string elementTwo)
     {
         if (!stateRelations.ContainsKey(variable))
@@ -259,36 +156,24 @@ public class State
         return false;
     }
 
-    /// <summary>
-    /// Gets a list of elements that fit as "first element" in a relation given a "second element".
-    /// </summary>
-    /// <param name="variable">The relation name</param>
-    /// <param name="elementTwo">The second element of the relation</param>
-    /// <returns>A list of elements that fit as "first element" in a relation given a "second element", 
-    /// returns an empty list of no elements match the given format</returns>
-    public List<string> UnifyRelation(string variable, string elementTwo)
-    {
-        List<string> unificationList = new List<string>();
 
-        if (!stateRelations.ContainsKey(variable))
-            return unificationList;
+    //public List<string> UnifyRelation(string variable, string elementTwo)
+    //{
+    //    List<string> unificationList = new List<string>();
 
-        foreach (KeyValuePair<string, List<string>> pair in stateRelations[variable])
-        {
-            if (pair.Value.Contains(elementTwo))
-                unificationList.Add(pair.Key);
-        }
+    //    if (!stateRelations.ContainsKey(variable))
+    //        return unificationList;
 
-        return unificationList;
-    }
+    //    foreach (KeyValuePair<string, List<string>> pair in stateRelations[variable])
+    //    {
+    //        if (pair.Value.Contains(elementTwo))
+    //            unificationList.Add(pair.Key);
+    //    }
 
-    /// <summary>
-    /// Checks if a relation is true between two given elements.
-    /// </summary>
-    /// <param name="variable">The relation name</param>
-    /// <param name="elementOne">The first element of the relation</param>
-    /// <param name="elementTwo">The second element of the relation</param>
-    /// <returns>True if a match is found, else false</returns>
+    //    return unificationList;
+    //}
+
+
     public bool CheckRelation(string variable, string elementOne, string elementTwo)
     {
         if (stateRelations.ContainsKey(variable) && stateRelations[variable].ContainsKey(elementOne)
@@ -297,23 +182,12 @@ public class State
         return false;
     }
 
-    /// <summary>
-    /// Checks if a relation is true between two given elements.
-    /// </summary>
-    /// <param name="variable">The relation name</param>
-    /// <param name="elementOne">The first element of the relation</param>
-    /// <param name="elementTwo">The second element of the relation</param>
-    /// <returns>True if a match is found, else false</returns>
     public bool Holds(string variable, string elementOne, string elementTwo)
     {
         return CheckRelation(variable, elementOne, elementTwo);
     }
 
-    /// <summary>
-    /// Gets a copy of the relations.
-    /// </summary>
-    /// <returns>Dictionary containing the relations</returns>
-    public Dictionary<string, Dictionary<string, List<string>>> GetRelationsCopy()
+    private Dictionary<string, Dictionary<string, List<string>>> GetRelationsCopy()
     {
         Dictionary<string, Dictionary<string, List<string>>> copy = new Dictionary<string, Dictionary<string, List<string>>>();
         foreach (KeyValuePair<string, Dictionary<string, List<string>>> pair in stateRelations)
@@ -323,6 +197,17 @@ public class State
             {
                 copy[pair.Key].Add(otherPair.Key, new List<string>(otherPair.Value));
             }
+        }
+        return copy;
+    }
+
+
+    private Dictionary<string, List<string>> GetVariablesCopy()
+    {
+        Dictionary<string, List<string>> copy = new Dictionary<string, List<string>>();
+        foreach (KeyValuePair<string, List<string>> pair in stateVariables)
+        {
+            copy.Add(pair.Key, new List<string>(pair.Value));
         }
         return copy;
     }

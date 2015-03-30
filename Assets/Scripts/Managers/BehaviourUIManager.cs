@@ -10,7 +10,10 @@ public class BehaviourUIManager : MonoBehaviour
     private Dictionary<ID, Slider> _healthBars = new Dictionary<ID, Slider>();
     private Dictionary<ID, Image> _thoughts = new Dictionary<ID, Image>();
     private Dictionary<ID, Text> _status = new Dictionary<ID, Text>();
+    private Dictionary<ID, Text> _amoSupply = new Dictionary<ID, Text>();
 
+    private Dictionary<Goal, Sprite> _thoughtImages = new Dictionary<Goal, Sprite>();
+    
     public static BehaviourUIManager Instance
     {
         get
@@ -18,7 +21,6 @@ public class BehaviourUIManager : MonoBehaviour
             if (_instance == null)
             {
                 _instance = new BehaviourUIManager();
-                LogManager.Instance.Log("BehaviourUIManager initialized.");
             }
 
             return _instance;
@@ -27,57 +29,81 @@ public class BehaviourUIManager : MonoBehaviour
 
     void Start()
     {
-        InternalEventManager.Instance.AddListener<ThoughtChangeEvent>(OnThoughtDisplayChange);
-        InternalEventManager.Instance.AddListener<HealthChangeEvent>(OnHealthDisplayChange);
-        InternalEventManager.Instance.AddListener<StatusChangeEvent>(OnStatusDisplayChange);
-
+        InternalEventManager.Instance.AddListener<HealthUIChangeEvent>(OnHealthDisplayChange);
+        InternalEventManager.Instance.AddListener<StatusUIChangeEvent>(OnStatusDisplayChange);
+        InternalEventManager.Instance.AddListener<AmoSupplyUIChangeEvent>(OnAmoSupplyChangeEvent);
+        InternalEventManager.Instance.AddListener<GoalChangeTriggerEvent>(OnThoughtDisplayChange);
+        
         InitializeUIComponents();
-        LogManager.Instance.Log("BehaviourUIManager initialized.");
+        LoadThoughts();
+
+        Debug.Log("BehaviourUIManager initialized.");
     }
 
     private void InitializeUIComponents()
     {
-        InitializeActor(ID.AI1);
-        InitializeActor(ID.AI2);
-        InitializeActor(ID.AI3);
-        InitializeActor(ID.Player);
+        InitializeNpcUI(ID.NPC1);
+        InitializeNpcUI(ID.NPC2);
+        InitializeNpcUI(ID.NPC3);
+        InitializeNpcUI(ID.Player);
     }
 
-    private void InitializeActor(ID id)
+    private void InitializeNpcUI(ID id)
     {
-        GameObject temp = GameObject.FindGameObjectWithTag(id.ToString());
-
-        Slider slider = temp.GetComponent<Slider>();
-        //Image thought;
-
+        Slider slider = GameObject.FindGameObjectWithTag(id.ToString()).GetComponentInChildren<Slider>();
         _healthBars.Add(id, slider);
+
+        if(!(id == ID.Player))
+        {
+            Image thought = GameObject.FindGameObjectWithTag(id.ToString() + "Thought").GetComponent<Image>();
+            _thoughts.Add(id, thought);
+
+            Text status = GameObject.FindGameObjectWithTag(id.ToString() + "Status").GetComponent<Text>();
+            _status.Add(id, status);
+
+            Text amoSupply = GameObject.FindGameObjectWithTag(id.ToString() + "Amo").GetComponent<Text>();
+            _amoSupply.Add(id, amoSupply);
+        }
     }
 
-    private void OnThoughtDisplayChange(ThoughtChangeEvent e)
+    private void LoadThoughts()
     {
-        //_uiLib.SetActorThoughtSprite(e.ActorTarget, e.Thought);
-        e.LogEvent();
+        Sprite[] thoughts = Resources.LoadAll<Sprite>("Thoughts/");
+
+        _thoughtImages.Add(Goal.Attack, thoughts[0]);
+        _thoughtImages.Add(Goal.Explore, thoughts[1]);
+        _thoughtImages.Add(Goal.Flee, thoughts[2]);
     }
 
-    private void OnHealthDisplayChange(HealthChangeEvent e)
+    private void OnAmoSupplyChangeEvent(AmoSupplyUIChangeEvent e)
     {
-        //_uiLib.SetActorHealth(e.ActorTarget, e.Amount);
-        Slider slider = _healthBars[e.ActorTarget];
-        slider.value = e.Amount;
-        e.LogEvent();
+        _amoSupply[e.NPC].text = e.AmoValue;
     }
 
-    private void OnStatusDisplayChange(StatusChangeEvent e)
+    private void OnThoughtDisplayChange(GoalChangeTriggerEvent e)
     {
-        //_uiLib.SetActorStatus(e.ActorTarget, e.Status);
-        e.LogEvent();
+        _thoughts[e.CallerID].sprite = _thoughtImages[e.NewGoal];
+    }
+
+    private void OnHealthDisplayChange(HealthUIChangeEvent e)
+    {
+        if(e.Amount != 0)
+        {
+            Slider slider = _healthBars[e.NPC];
+            slider.value = e.Amount;
+        }
+    }
+
+    private void OnStatusDisplayChange(StatusUIChangeEvent e)
+    {
+        _status[e.NPC].text = e.Status;
+
     }
 
     void OnDestroy()
     {
-        InternalEventManager.Instance.RemoveListener<ThoughtChangeEvent>(OnThoughtDisplayChange);
-        InternalEventManager.Instance.RemoveListener<HealthChangeEvent>(OnHealthDisplayChange);
-        InternalEventManager.Instance.RemoveListener<StatusChangeEvent>(OnStatusDisplayChange);
+        //InternalEventManager.Instance.RemoveListener<HealthChangeEvent>(OnHealthDisplayChange);
+        //InternalEventManager.Instance.RemoveListener<StatusChangeEvent>(OnStatusDisplayChange);
     }
 }
 

@@ -2,10 +2,6 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public struct MyLogType
-{
-    
-}
 
 public class LogManager
 {
@@ -20,7 +16,7 @@ public class LogManager
             {
                 _instance = new LogManager();
                 _logText = GameObject.FindGameObjectWithTag("MyLogText").GetComponent<Text>();
-                LogManager.Instance.Log("Logger Initialized");
+                Debug.Log("Logger Initialized");
             }
             return _instance;
         }

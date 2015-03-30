@@ -10,12 +10,12 @@ public class LogTest : MonoBehaviour
     {
         if (x != 0)
         {
-            LogManager.Instance.Log("Hello there my name is Lisa!fffffffffffffff");
+            Debug.Log("Hello there my name is Lisa!fffffffffffffff");
             x--;
         }
         else if ((x == 0) && f)
         {
-            LogManager.Instance.Log("weeee");
+            Debug.Log("weeee");
             f = false;
         }
     }

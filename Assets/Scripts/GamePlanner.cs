@@ -8,7 +8,6 @@ public class GamePlanner
     private HTNPlanner planner;
     private bool doneSearching;
     private bool searchSuccess;
-    private int verbose = 3;
 
     private Dictionary<Goal, string> _goalMap;
     
@@ -25,15 +24,12 @@ public class GamePlanner
 
     }
 
-    public List<string> GetPlan(Goal goal)
+    public List<string> GetPlan(Goal goal, State requestorState)
     {
         List<List<string>> goalsTasks = new List<List<string>>();
         goalsTasks.Add(new List<string>(new string[1]{_goalMap[goal]}));
 
-        //get initial world state
-        State initialState = WorldStateManager.Instance.GetCurrentState();
-
-        return planner.SolvePlanningProblem(initialState, goalsTasks, verbose);
+        return planner.SolvePlanningProblem(requestorState, goalsTasks);
     }
 
     public void CancelSearch()
